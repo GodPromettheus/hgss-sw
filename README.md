@@ -1,5 +1,7 @@
 # Pokémon DS games on the Nintendo Switch
 
+For a Windows graphical builder that uses your local ROM through WSL2, see the [Windows builder guide](tools/switch/WINDOWS-BUILDER.md).
+
 **Your favourite DS Pokémon games on a modded Switch: one screen, widescreen,
 720p, 60 fps.** No more squinting at two tiny stacked DS screens.
 
