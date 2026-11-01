@@ -1,6 +1,6 @@
 # Prompt para o Codex: investigar um port nativo de SoulSilver para Switch
 
-Abra o repositório https://github.com/GodPromettheus/pokemon-ds-widescreen-switch e trabalhe nele como fork de https://github.com/sasantos/pokemon-ds-widescreen-switch.
+Abra o repositório https://github.com/GodPromettheus/hgss-sw e trabalhe nele como fork de https://github.com/sasantos/pokemon-ds-widescreen-switch.
 
 Leia primeiro `AGENTS.md`, o README, `docs/NATIVE-PORT-MEMORY.md` e a documentação relevante de `ClickingMaster/ssrecomp`. Respeite todas as regras do repositório.
 
