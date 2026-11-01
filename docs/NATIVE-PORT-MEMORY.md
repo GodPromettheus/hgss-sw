@@ -4,7 +4,7 @@ Atualizado em 2026-11-01.
 
 ## Repositório e objetivo
 
-- Fork de trabalho: https://github.com/GodPromettheus/pokemon-ds-widescreen-switch
+- Fork de trabalho: https://github.com/GodPromettheus/hgss-sw
 - Base do fork: https://github.com/sasantos/pokemon-ds-widescreen-switch
 - Recompilador de referência: https://github.com/ClickingMaster/ssrecomp
 - Jogo inicial de interesse: Pokémon SoulSilver (Nintendo DS), com HeartGold como possível extensão.
