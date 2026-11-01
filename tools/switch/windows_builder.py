@@ -36,7 +36,12 @@ class SwitchBuilder(tk.Tk):
 
         self.game = tk.StringVar(value=next(iter(GAMES)))
         self.rom = tk.StringVar()
-        self.repo = Path(__file__).resolve().parents[2]
+        candidate = Path(__file__).resolve().parents[2]
+        if not (candidate / "tools" / "switch" / "build_game.sh").is_file():
+            candidate = Path.cwd()
+        if not (candidate / "tools" / "switch" / "build_game.sh").is_file():
+            candidate = Path()
+        self.repo = tk.StringVar(value=str(candidate) if str(candidate) != "." else "")
 
         self._make_widgets()
         self.after(100, self._drain_events)
@@ -66,9 +71,10 @@ class SwitchBuilder(tk.Tk):
         self.browse_button = ttk.Button(root, text="Selecionar…", command=self._choose_rom)
         self.browse_button.grid(row=3, column=2, sticky="e", padx=(8, 0), pady=4)
 
-        ttk.Label(root, text=f"Projeto: {self.repo}", wraplength=690).grid(
-            row=4, column=0, columnspan=3, sticky="w", pady=(4, 8)
-        )
+        ttk.Label(root, text="Pasta do projeto:").grid(row=4, column=0, sticky="w", pady=4)
+        ttk.Entry(root, textvariable=self.repo).grid(row=4, column=1, sticky="ew", pady=4)
+        self.repo_button = ttk.Button(root, text="Escolher…", command=self._choose_repo)
+        self.repo_button.grid(row=4, column=2, sticky="e", padx=(8, 0), pady=4)
 
         self.log = tk.Text(root, height=12, wrap="word", state="disabled")
         self.log.grid(row=5, column=0, columnspan=3, sticky="nsew")
@@ -94,6 +100,11 @@ class SwitchBuilder(tk.Tk):
             "A ROM não é incluída no pacote."
         )
 
+    def _choose_repo(self) -> None:
+        path = filedialog.askdirectory(title="Selecione a pasta hgss-sw")
+        if path:
+            self.repo.set(path)
+
     def _choose_rom(self) -> None:
         path = filedialog.askopenfilename(
             title="Selecione uma ROM que você possui",
@@ -105,10 +116,11 @@ class SwitchBuilder(tk.Tk):
     def _start_build(self) -> None:
         if self.running:
             return
-        if not (self.repo / "tools" / "switch" / "build_game.sh").is_file():
+        repo_path = Path(self.repo.get()).expanduser()
+        if not (repo_path / "tools" / "switch" / "build_game.sh").is_file():
             messagebox.showerror(
                 "Projeto não encontrado",
-                "Este programa precisa estar dentro da pasta hgss-sw, junto do código do projeto.",
+                "Selecione a pasta hgss-sw que contém tools/switch/build_game.sh.",
             )
             return
         rom_path = Path(self.rom.get()).expanduser()
@@ -128,13 +140,13 @@ class SwitchBuilder(tk.Tk):
         self._append_log(f"\nIniciando build: {game_key}")
         threading.Thread(
             target=self._build_worker,
-            args=(game_code, rom_path.resolve()),
+            args=(game_code, rom_path.resolve(), repo_path.resolve()),
             daemon=True,
         ).start()
 
-    def _build_worker(self, game_code: str, rom_path: Path) -> None:
+    def _build_worker(self, game_code: str, rom_path: Path, repo_path: Path) -> None:
         # Quote Windows paths for Bash; wslpath converts them inside Ubuntu.
-        repo_arg = shlex.quote(str(self.repo))
+        repo_arg = shlex.quote(str(repo_path))
         rom_arg = shlex.quote(str(rom_path))
         command = (
             f"repo=$(wslpath -u -- {repo_arg}) && "
