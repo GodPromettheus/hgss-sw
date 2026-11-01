@@ -17,14 +17,22 @@ the main project build guide. Start Ubuntu once after installing WSL.
 
 ## Open the window
 
-From the root of this repository in PowerShell:
+To download the packaged Windows executable, open the repository's
+[Windows builder Actions](https://github.com/GodPromettheus/hgss-sw/actions/workflows/windows-switch-builder.yml),
+open the latest successful run, and download the `HGSS-SW-Builder-Windows`
+artifact. The executable is also built automatically when its source or
+workflow changes. It contains only the generic GUI; it does not contain a ROM
+or an `.nro`.
+
+Or, with Python installed, run this from the repository root in PowerShell:
 
 ```powershell
-py tools/switch/windows_builder.py
+python tools/switch/windows_builder.py
 ```
 
-Choose a supported game or package, select your own `.nds` file, and click
-**Gerar arquivos do Switch**. The window calls WSL and displays the build log.
+Choose the local `hgss-sw` folder, choose a supported game or package, select
+your own `.nds` file, and click **Gerar arquivos do Switch**. The window calls
+WSL and displays the build log.
 
 Supported choices:
 
