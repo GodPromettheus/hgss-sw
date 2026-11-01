@@ -2,6 +2,7 @@
 /gen/
 # Build output
 /build/
+/build-sd/
 /build-*/
 # The Android build: downloaded NDK and SDL2, the signing key, and the APK, which
 # contains the game (tools/android/skeleton.apk does not, and is kept).
